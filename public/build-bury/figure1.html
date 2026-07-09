@@ -1,0 +1,199 @@
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="CéDP & their goat bonsai" />
+  <meta name="keywords" content="cesar delgado paladines, cedp, visual art, design, goat, bonsai" />
+  <meta name="author" content="cesar_delgado_paladines" />
+  <meta name="copyright" content="&copy;1993-2021 César Delgado Paladines" />
+  <title>Build a friend / Bury a friend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="stylesheet" href="./css/bootstrap.css">
+  <script src="./js/jquery-3.6.0.js"></script>
+  <script src="./js/bootstrap.js"></script>  <link rel="stylesheet" href="style.css" />
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="/site.webmanifest" />
+</head>
+
+<body class="fade-in">
+
+  <div class="row">
+
+    <div class="col-12">
+
+      <div class="panel-full">
+        <h2>"Left" Column</h2>
+        <p class="symbols" id="symbol1"></p>
+        <p class="symbols" id="symbol2"></p>
+        <p class="symbols" id="symbol3"></p>
+        <p class="symbols" id="symbol4"></p>
+        <p class="symbols" id="symbol5"></p>
+        <img id="figure"></img>
+        <svg id="perspective-lines" width="100vw" height="100vh" viewBox="25 -50 230 350"></svg>
+        <svg class="abstract-shape-stroke" width="400" height="475" viewBox="0, 0, 400, 450">
+        </svg>
+        <svg width="500" height="500">
+          <defs>
+            <radialGradient id="myGradient">
+              <stop offset="15%" stop-color="black" />
+              <stop offset="40%" stop-color="pink" />
+              <stop offset="90%" stop-color="white" stop-opacity="0.25" />
+            </radialGradient>
+          </defs>
+        </svg>
+        <div class="bubble">
+          <p class="bubble-true">🎂</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Function calls
+    generateKittyGradient();
+    symbolGenerator("#symbol1", 1);
+    symbolGenerator("#symbol2", 1);
+    symbolGenerator("#symbol3", 2);
+    symbolGenerator("#symbol4", 3);
+    symbolGenerator("#symbol5", 4);
+
+    function generateKittyGradient() {
+      var hexValues = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+      ];
+
+      function populate(a) {
+        for (var i = 0; i < 6; i++) {
+          var x = Math.round(Math.random() * 14);
+          var y = hexValues[x];
+          a += y;
+        }
+        return a;
+      }
+
+      var newColor1 = populate("#");
+      var newColor2 = populate("#");
+      var newColor3 = populate("#");
+      var newColor4 = populate("#");
+
+      document.getElementById("myGradient").innerHTML =
+        `<stop offset="15%" stop-color="` +
+        newColor1 +
+        `" /> <stop offset="40%" stop-color="` +
+        newColor2 +
+        `" /> <stop offset="90%" stop-color="white" stop-opacity="0.25" />`;
+    }
+
+    // RNG Between
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Figure selector and position
+
+    let figureLeft = Math.trunc(Math.random() * 65) + 1;
+    let figureTop = getRandomInt(20, 65);
+
+    function figureGenerator(figureID) {
+      document.getElementById(figureID).src =
+        `Elements/Figures/figure` + (Math.trunc(Math.random() * 10) + 1) + `.png`;
+      document.getElementById(figureID).style.left = figureLeft + `vw`;
+      document.getElementById(figureID).style.top = figureTop + `vh`;
+      document.querySelector('.bubble').style.left = figureLeft + `vw`;
+      document.querySelector('.bubble').style.top = figureTop - 13 + `vh`;
+    }
+
+    figureGenerator("figure");
+
+    // // Emoji generator for bubble
+    function emojiSelector(x) {
+      let emojiStart = getRandomInt(127, 129);
+      let emojiEnd = "";
+      if (emojiStart === 127) {
+        emojiEnd = getRandomInt(744, 999);
+      } else if (emojiStart === 128) {
+        emojiEnd = getRandomInt(000, 762);
+      } else if (emojiStart === 129) {
+        emojiEnd = getRandomInt(296, 510);
+      }
+      document.querySelector(x).innerHTML =
+        `&#` + String(emojiStart) + String(emojiEnd);
+      console.log(String(emojiStart) + String(emojiEnd));
+    }
+
+    emojiSelector(".bubble-true");
+
+    // Arrows and symbols generator, probability, rotation and position
+    function symbolGenerator(symbolNumber, x) {
+      // Probability
+      let randomNumber = Math.trunc(Math.random() * x) + 1;
+      let randomNumber2 = Math.trunc(Math.random() * 2) + 1;
+      //Angle selector
+      const rotateAngles = [45, 90, 135, 180, 225, 270, 315];
+      let rotateSelected =
+        rotateAngles[Math.trunc(Math.random() * rotateAngles.length)];
+      //Symbol rotator
+      document.querySelector(
+        symbolNumber
+      ).style.transform = `rotate(${rotateSelected}deg)`;
+      //Symbol position
+      document.querySelector(symbolNumber).style.top =
+        getRandomInt(5, 80) + "vh";
+      document.querySelector(symbolNumber).style.left =
+        getRandomInt(5, 80) + "vw";
+      if (randomNumber === 1) {
+        if (randomNumber2 === 1) {
+          //Symbol selector
+          document.querySelector(symbolNumber).innerHTML =
+            `&#` + String(getRandomInt(8592, 8703));
+        } else {
+          document.querySelector(symbolNumber).innerHTML =
+            `&#` + `101` + String(getRandomInt(36, 72));
+        }
+      }
+    }
+  </script>
+  <script src="timer.js"></script>
+  <script src="perspective.js"></script>
+  <script src="kittyfigure2.js"></script>
+</body>
+
+</html>
