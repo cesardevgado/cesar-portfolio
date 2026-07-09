@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Responsive Two Column Layout (Left Column Fluid)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <link rel="stylesheet" href="style.css" />
+    <!-- <meta http-equiv="refresh" content="30" /> -->
+  </head>
+
+  <body class="fade-in">
+
+  <body>
+    <!-- <h1>Responsive Two Column Layout (Left Column Fluid)</h1> -->
+
+    <div class="columnsContainer">
+
+<!-- --------------------------------- -->
+
+      <div class="leftColumn">
+        <div class="panel-title">
+          <p class="title" id="titlefloat"></p>
+        </div>
+      </div>
+    
+<!-- --------------------------------- -->
+
+      <div class="rightColumn">
+    </div>
+
+<!-- --------------------------------- -->
+
+  </div>
+    <script src="timer.js"></script>
+    <script>
+      function title() {
+        let randomNumber = Math.trunc(Math.random() * 2) + 1;
+        if (randomNumber === 1) {
+          document.getElementById("titlefloat").innerText = "BUILD A FRIEND";
+        } else {
+          document.getElementById("titlefloat").innerText = "BURY A FRIEND";
+        }
+      }
+      title()
+    </script>
+  </body>
+</html>
