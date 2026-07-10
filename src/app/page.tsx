@@ -69,7 +69,7 @@ const workExperience = [
   {
     title: "Iconophage",
     period: "2022 — 2025",
-    position: "Frontend Engineer",
+    position: "Frontend Developer",
     summary:
       "Developed and maintained responsive, user-focused websites using HTML, CSS, JavaScript, and WordPress, translating design requirements into functional front-end interfaces.",
   },
@@ -106,8 +106,15 @@ const experienceTabs = [
 
 const contacts = [
   { label: "GitHub", href: "https://github.com/cesardevgado/" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/cesar-delgado-/" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/cesar-devgado/" },
   { label: "Email", href: "mailto:hello@cesar.dev" },
+];
+
+const navLinks = [
+  { href: "#projects", label: "Work" },
+  { href: "#skills", label: "Skills" },
+  { href: "#experience", label: "Experience" },
+  { href: "#contact", label: "Contact" },
 ];
 
 function HeroIllustration() {
@@ -166,6 +173,7 @@ function HeroIllustration() {
 export default function Home() {
   const [activeTab, setActiveTab] =
     useState<(typeof experienceTabs)[number]["id"]>("work");
+  const [menuOpen, setMenuOpen] = useState(false);
   const activeExperience =
     activeTab === "work" ? workExperience : educationExperience;
 
@@ -182,24 +190,62 @@ export default function Home() {
           >
             Cesar Delgado
           </a>
-          <nav className="flex gap-4 text-md text-stone-600 sm:gap-6 font-medium tracking-[0.01em]">
-            <a href="#top" className="transition hover:text-violet-600">
-              &gt; Home
-            </a>
-            <a href="#projects" className="transition hover:text-violet-600">
-              &gt; Work
-            </a>
-            <a href="#skills" className="transition hover:text-violet-600">
-              &gt; Skills
-            </a>
-            <a href="#experience" className="transition hover:text-violet-600">
-              &gt; Experience
-            </a>
-            <a href="#contact" className="transition hover:text-violet-600">
-              &gt; Contact
-            </a>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((current) => !current)}
+            className="inline-flex items-center justify-center rounded-full border border-stone-200 bg-white/90 p-2 text-stone-700 transition hover:border-stone-300 hover:text-violet-600 sm:hidden"
+            aria-expanded={menuOpen}
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5"
+            >
+              {menuOpen ? (
+                <path d="M18 6 6 18M6 6l12 12" />
+              ) : (
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              )}
+            </svg>
+          </button>
+
+          <nav className="hidden items-center gap-4 text-md text-stone-600 sm:flex sm:gap-6 font-medium tracking-[0.01em]">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="transition hover:text-violet-600"
+              >
+                &gt; {link.label}
+              </a>
+            ))}
           </nav>
         </div>
+
+        {menuOpen ? (
+          <nav className="border-t border-stone-200 bg-stone-50/95 sm:hidden">
+            <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-4 sm:px-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-violet-50 hover:text-violet-600"
+                >
+                  &gt; {link.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        ) : null}
       </header>
 
       <main
