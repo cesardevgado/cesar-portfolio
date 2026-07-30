@@ -19,12 +19,12 @@ import { HiOutlineCode } from "react-icons/hi";
 
 const projects = [
   {
-    title: "TextScrubbr",
+    title: "CleanrKit",
     description:
-      "A tool for cleaning text focused on providing an intuitive and user-friendly interface for everyday users. It allows to easily remove unwanted characters, whitespace, and formatting from text.",
+      "A kit with six dedicated tools for cleaning text, JSON, CSV, HTML, Markdown, and SQL. Focused on providing an intuitive and user-friendly interface for everyday users.",
     tags: ["Python", "Flask", "HTML", "CSS", "JavaScript"],
-    demoHref: "https://txtscrubbr.onrender.com/",
-    thumbnail: "/images/textscrubbr-tn.png",
+    demoHref: "https://cleanrkit.com/",
+    thumbnail: "/images/cleanrkit-tn.png",
   },
   // {
   //   title: "AnnotationIQ",
@@ -37,7 +37,7 @@ const projects = [
     title: "Build a Friend / Bury a Friend",
     description:
       "A browser-based artwork that uses RNG and composition templates to generate unique pages of an instruction manual on lost friendships.",
-    tags: ["JavaScript", "HTML", "CSS", "WebGL"],
+    tags: ["JavaScript", "HTML", "CSS", "WebGL", "SVG"],
     demoHref: "/build-bury/loader.html",
     thumbnail: "/images/buildbury-tn.png",
   },
@@ -107,7 +107,7 @@ const experienceTabs = [
 const contacts = [
   { label: "GitHub", href: "https://github.com/cesardevgado/" },
   { label: "LinkedIn", href: "https://linkedin.com/in/cesar-devgado/" },
-  { label: "Email", href: "mailto:hello@cesar.dev" },
+  { label: "Email", href: "mailto:cesardelpal@gmail.com" },
 ];
 
 const navLinks = [
@@ -346,7 +346,7 @@ export default function Home() {
                         target="_blank"
                         className="inline-flex items-center justify-center rounded-full bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-500"
                       >
-                        Demo
+                        Visit
                       </a>
                     </div>
                   </div>
