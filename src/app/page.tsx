@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import {
   SiPython,
   SiPostgresql,
@@ -16,12 +16,21 @@ import {
   SiRender,
 } from "react-icons/si";
 import { HiOutlineCode } from "react-icons/hi";
+import type { IconType } from "react-icons";
 
 const projects = [
   {
+    title: "Wordaloo",
+    description:
+      "A responsive daily word game built with React and Next.js, using JavaScript-driven game state and validation to deliver a different ruleset each day. The component-based interface and Tailwind CSS design system keep interactions fast, accessible, and consistent across desktop and mobile devices.",
+    tags: ["React", "Next.js", "Tailwind CSS", "JavaScript"],
+    demoHref: "https://wordaloo.app",
+    thumbnail: "/images/wordaloo-tn.png",
+  },
+  {
     title: "CleanrKit",
     description:
-      "A kit with six dedicated tools for cleaning text, JSON, CSV, HTML, Markdown, and SQL. Focused on providing an intuitive and user-friendly interface for everyday users.",
+      "A Python and Flask web application that provides six purpose-built processing workflows for text, JSON, CSV, HTML, Markdown, and SQL. Each tool applies format-specific cleanup and transformation logic through a focused browser interface, reducing repetitive data-preparation work while keeping the results easy to review and reuse.",
     tags: ["Python", "Flask", "HTML", "CSS", "JavaScript"],
     demoHref: "https://cleanrkit.com/",
     thumbnail: "/images/cleanrkit-tn.png",
@@ -36,7 +45,7 @@ const projects = [
   {
     title: "Build a Friend / Bury a Friend",
     description:
-      "A browser-based artwork that uses RNG and composition templates to generate unique pages of an instruction manual on lost friendships.",
+      "A generative browser artwork powered by a JavaScript randomization engine that assembles unique instruction-manual pages from reusable composition templates. The project combines HTML and CSS layouts with SVG and WebGL graphics to produce dynamic visual variations while preserving a cohesive interactive experience.",
     tags: ["JavaScript", "HTML", "CSS", "WebGL", "SVG"],
     demoHref: "/build-bury/loader.html",
     thumbnail: "/images/buildbury-tn.png",
@@ -117,9 +126,34 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
+const themeChangeEvent = "portfolio-theme-change";
+
+function getDarkModeSnapshot() {
+  const savedTheme = window.localStorage.getItem("theme");
+  return savedTheme === "dark" ||
+    (savedTheme === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
+}
+
+function subscribeToTheme(onChange: () => void) {
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const handleBrowserThemeChange = () => {
+    if (window.localStorage.getItem("theme") === null) onChange();
+  };
+
+  mediaQuery.addEventListener("change", handleBrowserThemeChange);
+  window.addEventListener("storage", onChange);
+  window.addEventListener(themeChangeEvent, onChange);
+
+  return () => {
+    mediaQuery.removeEventListener("change", handleBrowserThemeChange);
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(themeChangeEvent, onChange);
+  };
+}
+
 function HeroIllustration() {
   return (
-    <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_80px_-30px_rgba(41,37,36,0.35)]">
+    <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_80px_-30px_rgba(41,37,36,0.35)] dark:border-stone-700 dark:bg-stone-900">
       <svg
         id="goat-1"
         width="110"
@@ -174,27 +208,63 @@ export default function Home() {
   const [activeTab, setActiveTab] =
     useState<(typeof experienceTabs)[number]["id"]>("work");
   const [menuOpen, setMenuOpen] = useState(false);
+  const darkMode = useSyncExternalStore(
+    subscribeToTheme,
+    getDarkModeSnapshot,
+    () => false,
+  );
   const activeExperience =
     activeTab === "work" ? workExperience : educationExperience;
 
-  return (
-    <div
-      className="min-h-screen bg-stone-50 text-stone-900"
-      style={{ backgroundColor: "#f1eff5" }}
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
+
+  const toggleTheme = () => {
+    const nextDarkMode = !darkMode;
+    document.documentElement.classList.toggle("dark", nextDarkMode);
+    window.localStorage.setItem("theme", nextDarkMode ? "dark" : "light");
+    window.dispatchEvent(new Event(themeChangeEvent));
+  };
+
+  const themeToggle = (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stone-300 bg-white/90 text-stone-700 transition hover:border-violet-400 hover:text-violet-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-violet-500 dark:hover:text-violet-400"
+      aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
+      title={`Switch to ${darkMode ? "light" : "dark"} mode`}
     >
-      <header className="sticky top-0 z-20 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur">
+      {darkMode ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+        </svg>
+      )}
+    </button>
+  );
+
+  return (
+    <div className="min-h-screen bg-[#f1eff5] text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
+      <header className="sticky top-0 z-20 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur dark:border-stone-800 dark:bg-stone-950/90">
         <div className="mx-auto flex max-w-[860px] items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
           <a
             href="#top"
-            className="text-lg font-semibold uppercase tracking-[0.3em] text-stone-700"
+            className="text-lg font-semibold uppercase tracking-[0.3em] text-stone-700 dark:text-stone-200"
           >
             Cesar Delgado
           </a>
 
+          <div className="flex items-center gap-2 sm:hidden">
+            {themeToggle}
           <button
             type="button"
             onClick={() => setMenuOpen((current) => !current)}
-            className="inline-flex items-center justify-center rounded-full border border-stone-200 bg-white/90 p-2 text-stone-700 transition hover:border-stone-300 hover:text-violet-600 sm:hidden"
+            className="inline-flex items-center justify-center rounded-full border border-stone-200 bg-white/90 p-2 text-stone-700 transition hover:border-stone-300 hover:text-violet-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
             aria-expanded={menuOpen}
             aria-label={
               menuOpen ? "Close navigation menu" : "Open navigation menu"
@@ -216,8 +286,9 @@ export default function Home() {
               )}
             </svg>
           </button>
+          </div>
 
-          <nav className="hidden items-center gap-4 text-md text-stone-600 sm:flex sm:gap-6 font-medium tracking-[0.01em]">
+          <nav className="hidden items-center gap-4 text-md text-stone-600 dark:text-stone-300 sm:flex sm:gap-6 font-medium tracking-[0.01em]">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -227,18 +298,19 @@ export default function Home() {
                 &gt; {link.label}
               </a>
             ))}
+            {themeToggle}
           </nav>
         </div>
 
         {menuOpen ? (
-          <nav className="border-t border-stone-200 bg-stone-50/95 sm:hidden">
+          <nav className="border-t border-stone-200 bg-stone-50/95 dark:border-stone-800 dark:bg-stone-950/95 sm:hidden">
             <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-4 sm:px-8">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-violet-50 hover:text-violet-600"
+                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-violet-50 hover:text-violet-600 dark:text-stone-200 dark:hover:bg-stone-900"
                 >
                   &gt; {link.label}
                 </a>
@@ -260,7 +332,7 @@ export default function Home() {
             <h1 className="text-5xl font-semibold leading-[0.95] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
               Building AI tools and solution-driven web apps.
             </h1>
-            <p className="max-w-xl text-lg leading-8 text-stone-600 sm:text-xl">
+            <p className="max-w-xl text-lg leading-8 text-stone-600 dark:text-stone-300 sm:text-xl">
               I design thoughtful interfaces and reliable product experiences
               around research, automation, and clear decision-making.
             </p>
@@ -273,7 +345,7 @@ export default function Home() {
               </a>
               <a
                 href="#contact"
-                className="rounded-full border border-stone-300 px-5 py-3 text-md font-bold text-stone-700 transition hover:border-stone-900 hover:text-stone-950"
+                className="rounded-full border border-stone-300 px-5 py-3 text-md font-bold text-stone-700 transition hover:border-stone-900 hover:text-stone-950 dark:border-stone-700 dark:text-stone-200 dark:hover:border-stone-400 dark:hover:text-white"
               >
                 Start a conversation
               </a>
@@ -285,21 +357,21 @@ export default function Home() {
         <section id="projects" className="space-y-10">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500">
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500 dark:text-stone-400">
                 Featured Projects
               </p>
               <h2 className="text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
                 Selected work.
               </h2>
             </div>
-            <p className="max-w-xl text-sm leading-7 text-stone-600"></p>
+            <p className="max-w-xl text-sm leading-7 text-stone-600 dark:text-stone-300"></p>
           </div>
 
           <div className="grid gap-6">
             {projects.map((project) => (
               <article
                 key={project.title}
-                className="rounded-[1.75rem] border border-stone-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="rounded-[1.75rem] border border-stone-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl dark:border-stone-700 dark:bg-stone-900 dark:shadow-black/20"
               >
                 <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-start">
                   {project.thumbnail ? (
@@ -327,14 +399,14 @@ export default function Home() {
                       </div>
                       <h3 className="text-xl font-semibold">{project.title}</h3>
                     </div>
-                    <p className="text-md leading-7 text-stone-600">
+                    <p className="text-md leading-7 text-stone-600 dark:text-stone-300">
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-full border border-stone-200 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-stone-500"
+                          className="rounded-full border border-stone-200 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-stone-500 dark:border-stone-700 dark:text-stone-400"
                         >
                           {tag}
                         </span>
@@ -358,7 +430,7 @@ export default function Home() {
 
         <section id="skills" className="space-y-6">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500 dark:text-stone-400">
               Skills
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
@@ -366,10 +438,10 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm lg:p-10">
+          <div className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm dark:border-stone-700 dark:bg-stone-900 lg:p-10">
             <div className="grid grid-cols-3 gap-6 justify-items-center items-center">
               {skills.map((skill) => {
-                const iconMap: Record<string, any> = {
+                const iconMap: Record<string, IconType> = {
                   Python: SiPython,
                   SQL: SiPostgresql,
                   JavaScript: SiJavascript,
@@ -404,14 +476,14 @@ export default function Home() {
 
                 return (
                   <div key={skill} className="flex flex-col items-center gap-2">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-stone-200 bg-stone-50">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">
                       <Icon
                         className="h-8 w-8"
                         color={color}
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-stone-700">{skill}</span>
+                    <span className="text-sm text-stone-700 dark:text-stone-200">{skill}</span>
                   </div>
                 );
               })}
@@ -421,7 +493,7 @@ export default function Home() {
 
         <section id="experience" className="space-y-10">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500 dark:text-stone-400">
               Experience
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
@@ -441,7 +513,7 @@ export default function Home() {
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
                       ? "bg-violet-600 text-white"
-                      : "border border-stone-200 bg-white text-stone-700 hover:border-stone-300"
+                      : "border border-stone-200 bg-white text-stone-700 hover:border-stone-300 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-stone-500"
                   }`}
                 >
                   {tab.label}
@@ -451,10 +523,10 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            {activeExperience.map((item, index) => (
+            {activeExperience.map((item) => (
               <article
                 key={item.title}
-                className="rounded-[1.75rem] border border-stone-200 bg-white p-6 shadow-sm"
+                className="rounded-[1.75rem] border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-stone-900"
               >
                 <div className="flex flex-col gap-4 ml-6">
                   <div className="flex gap-4">
@@ -463,10 +535,10 @@ export default function Home() {
                       <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-violet-600">
                         {item.period}
                       </p>
-                      <p className="mt-1 text-md text-stone-500">
+                      <p className="mt-1 text-md text-stone-500 dark:text-stone-400">
                         {item.position}
                       </p>
-                      <p className="mt-2 text-md leading-7 text-stone-600">
+                      <p className="mt-2 text-md leading-7 text-stone-600 dark:text-stone-300">
                         {item.summary}
                       </p>
                     </div>
@@ -479,7 +551,7 @@ export default function Home() {
 
         <section id="contact" className="space-y-6">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-stone-500 dark:text-stone-400">
               Contact
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
@@ -510,8 +582,8 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-stone-200 bg-stone-50/80">
-        <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-6 text-sm text-stone-500 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
+      <footer className="border-t border-stone-200 bg-stone-50/80 dark:border-stone-800 dark:bg-stone-950/80">
+        <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-6 text-sm text-stone-500 dark:text-stone-400 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
           <p>© 2026 Cesar Delgado</p>
           <p>Designed for thoughtful product work.</p>
         </div>
