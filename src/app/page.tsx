@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   SiPython,
   SiPostgresql,
@@ -126,81 +127,37 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
-const themeChangeEvent = "portfolio-theme-change";
-
 function getDarkModeSnapshot() {
-  const savedTheme = window.localStorage.getItem("theme");
-  return savedTheme === "dark" ||
-    (savedTheme === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
-}
-
-function subscribeToTheme(onChange: () => void) {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  const handleBrowserThemeChange = () => {
-    if (window.localStorage.getItem("theme") === null) onChange();
-  };
-
-  mediaQuery.addEventListener("change", handleBrowserThemeChange);
-  window.addEventListener("storage", onChange);
-  window.addEventListener(themeChangeEvent, onChange);
-
-  return () => {
-    mediaQuery.removeEventListener("change", handleBrowserThemeChange);
-    window.removeEventListener("storage", onChange);
-    window.removeEventListener(themeChangeEvent, onChange);
-  };
+  try {
+    const savedTheme = window.localStorage.getItem("theme");
+    return (
+      savedTheme === "dark" ||
+      (savedTheme === null &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  } catch {
+    return document.documentElement.classList.contains("dark");
+  }
 }
 
 function HeroIllustration() {
   return (
-    <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_20px_80px_-30px_rgba(41,37,36,0.35)] dark:border-stone-700 dark:bg-stone-900">
-      <svg
-        id="goat-1"
-        width="110"
-        height="100"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 150 150"
-        className="h-full w-full"
-        aria-label="Animated goat illustration"
-      >
-        <style>{`.cls-4 { cursor: grab; }`}</style>
-        <defs>
-          <radialGradient id="myGradient1">
-            <stop offset="0%" stopColor="#2c3fba" stopOpacity="1">
-              <animate
-                attributeName="stop-color"
-                values="#2c3fba;#e4a4fc;#ed80ba;#f7df80;#d55fe8;#2c3fba;"
-                dur="10s"
-                repeatCount="indefinite"
-              />
-            </stop>
-            <stop offset="30%" stopColor="#e293cd" stopOpacity="0.75">
-              <animate
-                attributeName="stop-color"
-                values="#e293cd;#efc099;#a2a5e5;#efb377;#bf5d3f;#e293cd;"
-                dur="10s"
-                repeatCount="indefinite"
-              />
-            </stop>
-            <stop offset="100%" stopColor="#f1eff5" stopOpacity="1">
-              <animate
-                attributeName="offset"
-                values="1;.80;.60;.60;.80;1"
-                dur="10s"
-                repeatCount="indefinite"
-              />
-            </stop>
-          </radialGradient>
-        </defs>
-        <path
-          className="cls-4"
-          d="M237.35,634.48c-2.45-3.27-6.54-3.84-9.65-4.18-6.43-.7-18.4,1.5-27.4,6.27-1.67.88-4.85,1.32-8.87,1.3a25.55,25.55,0,0,1-9.65-1.83c-3.5-1.47-4.17-3.74-6.79-4.43-13.43-3.52-22,0-26.93,4.11-2.05,1.72-2.16,3.52-3.85,5-2.17,1.91-5.82.09-6.13-1.43-.24-1.19.77-3.9.52-4.83-.39-1.44-1.31,1.17-1.83.78s.52-1.17,1.18-3.91c.47-2,1-4.39.26-4.7-1.2-.54-4.05,5.22-7.05,11-.6,1.15-.07,2.44-.52,4.7a39,39,0,0,1-1.83,5.74c-1.44,4.89.87,10.73,3.66,14.08,2.34,2.83,3.57,2.14,6,5.48,2.1,2.89,1.58,3.95,3.65,6.53,1.22,1.51,4.39,5.53,8.09,5.41,2.5-.08,4.52-2.42,5.74-4.63,1.73-3.13-.44-5.22,1-10.44.37-1.31,1.21-3.5,3-3.72,1.18-.13,2.5.24,4.83,3.46a50.32,50.32,0,0,0,5.09,6c2.73,1.23,2.15,3.66,2.21,4.44.13,1.56-1.05,2.19-1.56,4.69-.33,1.63,0,3.76,1,4.18,1.23.5,3.38-1.41,4.44-3.39,1.41-2.65.83-3.16,1.43-3.27s1.28.42,1.7,3a13.59,13.59,0,0,0,1,3.39c.58,1.48,1.37,1.9,2.09,2.87,2.79,3.78.46,10.63.26,11.22-.74,2.1-1.62,3.18-1,4.17a3.21,3.21,0,0,0,3.65,1c2.74-1.43,3.78-7.56,3.65-14.35,0-1,.32-3.32.52-5.47s1-2.27,1-4.18c.12-2.61-1.25-3.3-.79-5.22a4.53,4.53,0,0,1,2.61-3.13c2.58-.88,6.25,3.64,11,4.83,4.48,1.13,6-1.08,8,1,.08.09.13.24.13,1.7,0,1.72-1.35,2.39-2.09,3.91-1.21,2.49.75,4.1,1.05,8.09A17,17,0,0,1,207.35,700c-2.16,3-4.5,3.56-5,6.53-.06.37-.39,2.49.78,3.39s3.21.26,4.44-.78c1.7-1.45.86-2.93,2.34-5.48,1.25-2.14,3.93-4.68,6.53-4.44,2,.18,2.6,1.84,4.43,1.57.66-.1,1.24-.41,2.87-2.09,2.51-2.58,2.69-3.46,5-6a33.34,33.34,0,0,0,3.39-3.91,8,8,0,0,0,1.57-3.14c.37-2.12-.82-3.59-1.31-5-1.4-3.94,1.85-7.23,2.94-9.52,1.95-4.11,4.11-12.72,2.54-25.18C238.24,645,243.54,642.76,237.35,634.48Zm-12.79,57.4c-1.22,1-4.47,3.56-5.21,2.87s1.44-4.06,2.61-5.61c.89-1.19,3-4,4.43-3.53.72.27,1,1.32,1,2C227.54,689.28,226.07,690.59,224.56,691.88Z"
-          transform="translate(-185 -860) scale(1.4)"
-          id="path172"
-          fill="url(#myGradient1)"
+    <figure>
+      <div className="aspect-square overflow-hidden rounded-full border border-stone-200 bg-white shadow-[0_20px_80px_-30px_rgba(41,37,36,0.35)] dark:border-stone-700 dark:bg-stone-900">
+        <Image
+          src="/images/cesar-oc.png"
+          alt="Cesar Delgado Paladines"
+          width={1254}
+          height={1254}
+          priority
+          className="h-full w-full object-cover"
         />
-      </svg>
-    </div>
+      </div>
+      <figcaption className="mt-5 text-center text-sm italic leading-6 text-stone-600 dark:text-stone-300">
+        Nothing I enjoy more than creating something new and a hot cup of
+        coffee.
+      </figcaption>
+    </figure>
   );
 }
 
@@ -208,13 +165,32 @@ export default function Home() {
   const [activeTab, setActiveTab] =
     useState<(typeof experienceTabs)[number]["id"]>("work");
   const [menuOpen, setMenuOpen] = useState(false);
-  const darkMode = useSyncExternalStore(
-    subscribeToTheme,
-    getDarkModeSnapshot,
-    () => false,
-  );
+  const [darkMode, setDarkMode] = useState(false);
   const activeExperience =
     activeTab === "work" ? workExperience : educationExperience;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const syncTheme = () => setDarkMode(getDarkModeSnapshot());
+    const syncSystemTheme = () => {
+      try {
+        if (window.localStorage.getItem("theme") === null) syncTheme();
+      } catch {
+        syncTheme();
+      }
+    };
+
+    syncTheme();
+    mediaQuery.addEventListener?.("change", syncSystemTheme);
+    mediaQuery.addListener?.(syncSystemTheme);
+    window.addEventListener("storage", syncTheme);
+
+    return () => {
+      mediaQuery.removeEventListener?.("change", syncSystemTheme);
+      mediaQuery.removeListener?.(syncSystemTheme);
+      window.removeEventListener("storage", syncTheme);
+    };
+  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -222,16 +198,20 @@ export default function Home() {
 
   const toggleTheme = () => {
     const nextDarkMode = !darkMode;
+    setDarkMode(nextDarkMode);
     document.documentElement.classList.toggle("dark", nextDarkMode);
-    window.localStorage.setItem("theme", nextDarkMode ? "dark" : "light");
-    window.dispatchEvent(new Event(themeChangeEvent));
+    try {
+      window.localStorage.setItem("theme", nextDarkMode ? "dark" : "light");
+    } catch {
+      // The visual toggle still works if storage is unavailable.
+    }
   };
 
   const themeToggle = (
     <button
       type="button"
       onClick={toggleTheme}
-      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-stone-300 bg-white/90 text-stone-700 transition hover:border-violet-400 hover:text-violet-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-violet-500 dark:hover:text-violet-400"
+      className="relative z-50 inline-flex h-11 w-11 touch-manipulation shrink-0 select-none items-center justify-center rounded-full border border-stone-300 bg-white/90 text-stone-700 transition hover:border-[#23a3c0] hover:text-[#23a3c0] dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-[#23a3c0] dark:hover:text-[#23a3c0]"
       aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
       title={`Switch to ${darkMode ? "light" : "dark"} mode`}
     >
@@ -249,9 +229,9 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f1eff5] text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
-      <header className="sticky top-0 z-20 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur dark:border-stone-800 dark:bg-stone-950/90">
-        <div className="mx-auto flex max-w-[860px] items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
+    <div className="min-h-screen bg-[#eef7f9] text-stone-900 transition-colors dark:bg-stone-950 dark:text-stone-100">
+      <header className="sticky top-0 z-50 isolate border-b border-stone-200/80 bg-stone-50/90 backdrop-blur dark:border-stone-800 dark:bg-stone-950/90">
+        <div className="relative z-50 mx-auto flex max-w-[860px] items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
           <a
             href="#top"
             className="text-lg font-semibold uppercase tracking-[0.3em] text-stone-700 dark:text-stone-200"
@@ -259,12 +239,12 @@ export default function Home() {
             Cesar Delgado
           </a>
 
-          <div className="flex items-center gap-2 sm:hidden">
+          <div className="relative z-50 flex shrink-0 items-center gap-2 sm:hidden">
             {themeToggle}
           <button
             type="button"
             onClick={() => setMenuOpen((current) => !current)}
-            className="inline-flex items-center justify-center rounded-full border border-stone-200 bg-white/90 p-2 text-stone-700 transition hover:border-stone-300 hover:text-violet-600 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
+            className="relative z-50 inline-flex h-11 w-11 touch-manipulation select-none items-center justify-center rounded-full border border-stone-200 bg-white/90 text-stone-700 transition hover:border-stone-300 hover:text-[#23a3c0] dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
             aria-expanded={menuOpen}
             aria-label={
               menuOpen ? "Close navigation menu" : "Open navigation menu"
@@ -293,7 +273,7 @@ export default function Home() {
               <a
                 key={link.href}
                 href={link.href}
-                className="transition hover:text-violet-600"
+                className="transition hover:text-[#23a3c0]"
               >
                 &gt; {link.label}
               </a>
@@ -303,14 +283,14 @@ export default function Home() {
         </div>
 
         {menuOpen ? (
-          <nav className="border-t border-stone-200 bg-stone-50/95 dark:border-stone-800 dark:bg-stone-950/95 sm:hidden">
+          <nav className="relative z-50 border-t border-stone-200 bg-stone-50/95 dark:border-stone-800 dark:bg-stone-950/95 sm:hidden">
             <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-4 sm:px-8">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-violet-50 hover:text-violet-600 dark:text-stone-200 dark:hover:bg-stone-900"
+                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-[#e5f6f9] hover:text-[#23a3c0] dark:text-stone-200 dark:hover:bg-stone-900"
                 >
                   &gt; {link.label}
                 </a>
@@ -326,7 +306,7 @@ export default function Home() {
       >
         <section className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="max-w-2xl space-y-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-violet-600">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#23a3c0]">
               Front End Developer |<br /> AI Researcher |<br /> App Builder
             </p>
             <h1 className="text-5xl font-semibold leading-[0.95] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
@@ -339,7 +319,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="#projects"
-                className="rounded-full bg-violet-600 px-5 py-3 text-md font-bold text-stone-50 transition hover:bg-violet-500"
+                className="rounded-full bg-[#23a3c0] px-5 py-3 text-md font-bold text-stone-50 transition hover:bg-[#1d8ba4]"
               >
                 See selected work
               </a>
@@ -375,14 +355,14 @@ export default function Home() {
               >
                 <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-start">
                   {project.thumbnail ? (
-                    <div
-                      className="overflow-hidden rounded-[8px] w-full"
-                      style={{ margin: "auto" }}
-                    >
-                      <img
+                    <div className="flex w-full justify-center">
+                      <Image
                         src={project.thumbnail}
                         alt={`${project.title} thumbnail`}
-                        className="w-full h-full object-cover object-center"
+                        width={750}
+                        height={1334}
+                        sizes="(max-width: 639px) 13rem, 16rem"
+                        className="h-auto w-full max-w-[13rem] rounded-[8px] sm:max-w-[16rem]"
                       />
                     </div>
                   ) : (
@@ -394,7 +374,7 @@ export default function Home() {
                   )}
                   <div className="space-y-6">
                     <div className="flex items-center gap-4">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-violet-100 text-violet-600">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d4f0f5] text-[#23a3c0]">
                         <span className="text-lg">✦</span>
                       </div>
                       <h3 className="text-xl font-semibold">{project.title}</h3>
@@ -412,11 +392,11 @@ export default function Home() {
                         </span>
                       ))}
                     </div>
-                    <div className="pt-4">
+                    <div className="flex justify-center pt-4 lg:justify-start">
                       <a
                         href={project.demoHref}
                         target="_blank"
-                        className="inline-flex items-center justify-center rounded-full bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-500"
+                        className="inline-flex items-center justify-center rounded-full bg-[#23a3c0] px-7 py-3.5 text-base font-semibold text-white transition hover:bg-[#1d8ba4] lg:px-5 lg:py-3 lg:text-sm"
                       >
                         Visit
                       </a>
@@ -512,7 +492,7 @@ export default function Home() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
-                      ? "bg-violet-600 text-white"
+                      ? "bg-[#23a3c0] text-white"
                       : "border border-stone-200 bg-white text-stone-700 hover:border-stone-300 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200 dark:hover:border-stone-500"
                   }`}
                 >
@@ -532,7 +512,7 @@ export default function Home() {
                   <div className="flex gap-4">
                     <div>
                       <h3 className="text-xl font-semibold">{item.title}</h3>
-                      <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-violet-600">
+                      <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-[#23a3c0]">
                         {item.period}
                       </p>
                       <p className="mt-1 text-md text-stone-500 dark:text-stone-400">
@@ -559,10 +539,10 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="rounded-[2rem] border border-violet-700/30 bg-violet-600 p-8 text-white shadow-sm sm:p-10">
+          <div className="rounded-[2rem] border border-[#23a3c0]/30 bg-[#23a3c0] p-8 text-white shadow-sm sm:p-10">
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl">
-                <p className="text-md leading-7 text-violet-100 font-semibold">
+                <p className="text-md leading-7 text-[#d9f4f8] font-semibold">
                   Reach out via one of the links to start a conversation.
                 </p>
               </div>
@@ -571,7 +551,7 @@ export default function Home() {
                   <a
                     key={contact.label}
                     href={contact.href}
-                    className="rounded-full bg-white border border-violet-700/60 px-4 py-2 text-sm text-black transition hover:bg-gray-200"
+                    className="rounded-full bg-white border border-[#16798f]/60 px-4 py-2 text-sm text-black transition hover:bg-gray-200"
                   >
                     {contact.label}
                   </a>
