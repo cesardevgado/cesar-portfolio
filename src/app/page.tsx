@@ -71,7 +71,7 @@ const skills = [
 const workExperience = [
   {
     title: "Keywords",
-    period: "2025 — Present",
+    period: "2025 — 2026",
     position: "AI Technical Researcher",
     summary:
       "Performed large-scale AI data evaluation for two P0-priority Amazon AGI initiatives, providing validation and error analysis to improve model training data quality, consistency, and reliability.",
@@ -125,6 +125,7 @@ const navLinks = [
   { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
   { href: "#contact", label: "Contact" },
+  { href: "https://cesardelgado.art", label: "Art", highlighted: true },
 ];
 
 function getDarkModeSnapshot() {
@@ -216,12 +217,26 @@ export default function Home() {
       title={`Switch to ${darkMode ? "light" : "dark"} mode`}
     >
       {darkMode ? (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-5 w-5"
+          aria-hidden="true"
+        >
           <circle cx="12" cy="12" r="4" />
           <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
         </svg>
       ) : (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-5 w-5"
+          aria-hidden="true"
+        >
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
         </svg>
       )}
@@ -239,41 +254,41 @@ export default function Home() {
             Cesar Delgado
           </a>
 
-          <div className="relative z-50 flex shrink-0 items-center gap-2 sm:hidden">
+          <div className="relative z-50 flex shrink-0 items-center gap-2 md:hidden">
             {themeToggle}
-          <button
-            type="button"
-            onClick={() => setMenuOpen((current) => !current)}
-            className="relative z-50 inline-flex h-11 w-11 touch-manipulation select-none items-center justify-center rounded-full border border-stone-200 bg-white/90 text-stone-700 transition hover:border-stone-300 hover:text-[#23a3c0] dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
-            aria-expanded={menuOpen}
-            aria-label={
-              menuOpen ? "Close navigation menu" : "Open navigation menu"
-            }
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-5 w-5"
+            <button
+              type="button"
+              onClick={() => setMenuOpen((current) => !current)}
+              className="relative z-50 inline-flex h-11 w-11 touch-manipulation select-none items-center justify-center rounded-full border border-stone-200 bg-white/90 text-stone-700 transition hover:border-stone-300 hover:text-[#23a3c0] dark:border-stone-700 dark:bg-stone-900 dark:text-stone-200"
+              aria-expanded={menuOpen}
+              aria-label={
+                menuOpen ? "Close navigation menu" : "Open navigation menu"
+              }
             >
-              {menuOpen ? (
-                <path d="M18 6 6 18M6 6l12 12" />
-              ) : (
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              )}
-            </svg>
-          </button>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+              >
+                {menuOpen ? (
+                  <path d="M18 6 6 18M6 6l12 12" />
+                ) : (
+                  <path d="M3 6h18M3 12h18M3 18h18" />
+                )}
+              </svg>
+            </button>
           </div>
 
-          <nav className="hidden items-center gap-4 text-md text-stone-600 dark:text-stone-300 sm:flex sm:gap-6 font-medium tracking-[0.01em]">
+          <nav className="hidden items-center gap-6 text-md text-stone-600 dark:text-stone-300 md:flex font-medium tracking-[0.01em]">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="transition hover:text-[#23a3c0]"
+                className={`transition ${link.highlighted ? "text-violet-700 hover:text-violet-900 dark:text-violet-400 dark:hover:text-violet-300" : "hover:text-[#23a3c0]"}`}
               >
                 &gt; {link.label}
               </a>
@@ -283,14 +298,14 @@ export default function Home() {
         </div>
 
         {menuOpen ? (
-          <nav className="relative z-50 border-t border-stone-200 bg-stone-50/95 dark:border-stone-800 dark:bg-stone-950/95 sm:hidden">
+          <nav className="relative z-50 border-t border-stone-200 bg-stone-50/95 dark:border-stone-800 dark:bg-stone-950/95 md:hidden">
             <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-4 sm:px-8">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className="rounded-full px-4 py-3 text-md font-medium text-stone-700 transition hover:bg-[#e5f6f9] hover:text-[#23a3c0] dark:text-stone-200 dark:hover:bg-stone-900"
+                  className={`rounded-full px-4 py-3 text-md font-medium transition hover:bg-[#e5f6f9] dark:hover:bg-stone-900 ${link.highlighted ? "text-violet-700 hover:text-violet-900 dark:text-violet-400 dark:hover:text-violet-300" : "text-stone-700 hover:text-[#23a3c0] dark:text-stone-200"}`}
                 >
                   &gt; {link.label}
                 </a>
@@ -302,19 +317,19 @@ export default function Home() {
 
       <main
         id="top"
-        className="mx-auto flex max-w-[860px] flex-col gap-24 px-6 py-16 sm:gap-24 sm:px-8 lg:gap-32 lg:px-10 lg:py-24"
+        className="mx-auto flex max-w-[860px] flex-col gap-24 px-6 pt-[1.6rem] pb-16 sm:gap-24 sm:px-8 lg:gap-32 lg:px-10 lg:pt-[2.4rem] lg:pb-24"
       >
         <section className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="max-w-2xl space-y-8">
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#23a3c0]">
-              Front End Developer |<br /> AI Researcher |<br /> App Builder
+              Software Developer |<br /> AI Researcher |<br /> Creative Designer
             </p>
             <h1 className="text-5xl font-semibold leading-[0.95] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
-              Building AI tools and solution-driven web apps.
+              Creative developer building thoughtful software experiences.
             </h1>
             <p className="max-w-xl text-lg leading-8 text-stone-600 dark:text-stone-300 sm:text-xl">
-              I design thoughtful interfaces and reliable product experiences
-              around research, automation, and clear decision-making.
+              I turn ideas and designs into intuitive, responsive, and
+              thoughtfully built software.
             </p>
             <div className="flex flex-wrap gap-3">
               <a
@@ -463,7 +478,9 @@ export default function Home() {
                         aria-hidden="true"
                       />
                     </div>
-                    <span className="text-sm text-stone-700 dark:text-stone-200">{skill}</span>
+                    <span className="text-sm text-stone-700 dark:text-stone-200">
+                      {skill}
+                    </span>
                   </div>
                 );
               })}
@@ -565,7 +582,7 @@ export default function Home() {
       <footer className="border-t border-stone-200 bg-stone-50/80 dark:border-stone-800 dark:bg-stone-950/80">
         <div className="mx-auto flex max-w-[860px] flex-col gap-2 px-6 py-6 text-sm text-stone-500 dark:text-stone-400 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
           <p>© 2026 Cesar Delgado</p>
-          <p>Designed for thoughtful product work.</p>
+          <p>Beautiful and thoughtful software.</p>
         </div>
       </footer>
     </div>
