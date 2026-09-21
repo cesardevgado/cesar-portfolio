@@ -36,13 +36,14 @@ const projects = [
     demoHref: "https://cleanrkit.com/",
     thumbnail: "/images/cleanrkit-tn.png",
   },
-  // {
-  //   title: "AnnotationIQ",
-  //   description:
-  //     "A reporting surface for model review cycles, annotation quality, and decision trends.",
-  //   tags: ["React", "SQL", "Analytics"],
-  //   demoHref: "#",
-  // },
+  {
+    title: "La Novia del Toro",
+    description:
+      "A WordPress website developed for La Novia del Toro using Elementor, custom page configuration, and a multi-plugin ecosystem. The project involved responsive layout implementation, plugin administration, content management, frontend customization, and ongoing site maintenance, with an emphasis on usability, visual consistency, and enabling non-technical client updates through the WordPress dashboard.",
+    tags: ["WordPress", "HTML", "CSS", "JavaScript"],
+    demoHref: "https://lanoviadeltoro.com/",
+    thumbnail: "/images/lanoviadeltoro-tn.png",
+  },
   {
     title: "Build a Friend / Bury a Friend",
     description:
@@ -288,7 +289,7 @@ export default function Home() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`transition ${link.highlighted ? "text-violet-700 hover:text-violet-900 dark:text-violet-400 dark:hover:text-violet-300" : "hover:text-[#23a3c0]"}`}
+                className={`transition ${link.highlighted ? "text-[#f487bc]" : "hover:text-[#23a3c0]"}`}
               >
                 &gt; {link.label}
               </a>
@@ -305,7 +306,7 @@ export default function Home() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`rounded-full px-4 py-3 text-md font-medium transition hover:bg-[#e5f6f9] dark:hover:bg-stone-900 ${link.highlighted ? "text-violet-700 hover:text-violet-900 dark:text-violet-400 dark:hover:text-violet-300" : "text-stone-700 hover:text-[#23a3c0] dark:text-stone-200"}`}
+                  className={`rounded-full px-4 py-3 text-md font-medium transition hover:bg-[#e5f6f9] dark:hover:bg-stone-900 ${link.highlighted ? "text-[#23a3c0]" : "text-stone-700 hover:text-[#23a3c0] dark:text-stone-200"}`}
                 >
                   &gt; {link.label}
                 </a>
