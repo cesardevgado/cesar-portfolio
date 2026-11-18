@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ThemeToggle from "@/components/ThemeToggle";
+import PageTransition from "@/components/PageTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Cesar | Software Developer",
   description:
-    "Portfolio of a software developer building AI tools and data-driven web apps.",
+    "Cesar Delgado builds web apps, tools, and games. Explore selected work, skills, and experience.",
 };
 
 export default function RootLayout({
@@ -36,7 +38,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col"><a className="skip-link" href="#main-content">Skip to content</a>
+        <ThemeToggle />
+        {children}
+        <PageTransition />
+      </body>
     </html>
   );
 }
