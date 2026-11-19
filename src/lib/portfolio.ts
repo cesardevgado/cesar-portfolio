@@ -64,7 +64,15 @@ export const skills = [
 
 export const workExperience = [
   {
-    title: "Keywords",
+    title: "Tiny Relic",
+    websiteHref: "https://www.tinyrelic.studio",
+    period: "Independent studio",
+    position: "Founder & Game Developer",
+    summary:
+      "Lead creative direction and game development for Job Hunt Simulator and Fool’s Folly, combining game design, programming, and visual development.",
+  },
+  {
+    title: "Keywords Studios",
     period: "2025 — 2026",
     position: "AI Technical Researcher",
     summary:
@@ -82,14 +90,14 @@ export const workExperience = [
 export const educationExperience = [
   {
     title: "Bachelors in Computer Science",
-    period: "Ongoing",
+    period: "Jan 2026 – Dec 2027 (expected)",
     position: "Florida International University",
     summary:
       "Relevant coursework: Data Structures and Algorithms, Database Management Systems, Software Engineering, Software Testing, AI, and Web Development.",
   },
   {
     title: "Associates in Programming and Analysis",
-    period: "2023 — 2024",
+    period: "Jun 2024 – Dec 2025",
     position: "Daytona State College",
     summary:
       "Relevant coursework: Programming Fundamentals, Data Structures, and Web Development.",
