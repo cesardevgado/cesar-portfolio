@@ -50,6 +50,14 @@ export default function Projects() {
                       </a>
                     </p>
                   )}
+                  {project.caseStudyHref && (
+                    <p>
+                      <a className="underline underline-offset-4" href={project.caseStudyHref} target="_blank" rel="noopener noreferrer">
+                        Case study <span aria-hidden="true">↗</span>
+                        <span className="sr-only"> for {project.title} (opens in a new tab)</span>
+                      </a>
+                    </p>
+                  )}
                   <ul className="tags" aria-label="Technologies">
                     {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
                   </ul>
