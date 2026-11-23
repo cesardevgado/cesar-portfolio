@@ -6,6 +6,7 @@ export const projects = [
     tags: ["TypeScript", "Next.js", "Node.js", "SQLite"],
     demoHref: "https://playtest-inbox.onrender.com",
     demoLabel: "Try demo",
+    caseStudyHref: "https://www.tinyrelic.studio/projects/playtest-inbox",
     thumbnail: "/images/playtest-inbox-logo.png",
     thumbnailSize: { width: 1491, height: 758 },
     thumbnailCrop: null,
