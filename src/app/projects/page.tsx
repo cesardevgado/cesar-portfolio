@@ -29,8 +29,8 @@ export default function Projects() {
                   /> : <Image
                     src={project.thumbnail}
                     alt=""
-                    width={609}
-                    height={262}
+                    width={project.thumbnailSize?.width ?? 609}
+                    height={project.thumbnailSize?.height ?? 262}
                     sizes="(max-width: 600px) 56px, 76px"
                   />}
                 </div>

@@ -1,5 +1,16 @@
 export const projects = [
   {
+    title: "Playtest Inbox",
+    description:
+      "An indie game playtest tracker that takes a bug from its first report to a verified fix: flag a later build, retest, and verify or reopen the issue.",
+    tags: ["TypeScript", "Next.js", "Node.js", "SQLite"],
+    demoHref: "https://playtest-inbox.onrender.com",
+    demoLabel: "Try demo",
+    thumbnail: "/images/playtest-inbox-logo.png",
+    thumbnailSize: { width: 1491, height: 758 },
+    thumbnailCrop: null,
+  },
+  {
     title: "Desktop Club 98",
     description:
       "A retro browser hangout with live chat, shared notes and images, collaborative pixel art, and persistent rooms.",
